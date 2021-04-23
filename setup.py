@@ -13,5 +13,9 @@ setup(
     descrption='JSON to CSV CLI tool.',
     long_description=long_description,
     license='MIT',
-    packages=find_packages()
+    packages=find_packages(),
+    entry_points='''
+        [console_scripts]
+        json2csv=json2csv.main:main
+    ''',
 )
