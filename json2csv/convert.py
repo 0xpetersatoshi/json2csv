@@ -1,12 +1,11 @@
 import csv
 import json
-import os
 from typing import Union
 
 
-def main(args):
-    data = load_json(args.jsonfile)
-    to_csv(data, args.csvfile)
+def convert(infile, outfile):
+    data = load_json(infile)
+    to_csv(data, outfile)
 
 
 def load_json(filepath: str) -> Union[dict, list]:
@@ -16,7 +15,7 @@ def load_json(filepath: str) -> Union[dict, list]:
     :param filepath: The filepath to the JSON file to load
     :return: A dict or list of the loaded JSON
     """
-    with open(os.path.join(os.path.dirname(__file__), filepath)) as fh:
+    with open(filepath) as fh:
         return json.load(fh)
 
 

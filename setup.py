@@ -16,6 +16,6 @@ setup(
     packages=find_packages(),
     entry_points='''
         [console_scripts]
-        json2csv=json2csv.main:main
+        json2csv=json2csv:main
     ''',
 )
