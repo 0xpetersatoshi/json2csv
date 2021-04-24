@@ -1,22 +1,30 @@
 import csv
 import json
+from pathlib import Path
 from typing import Union
 
+from json2csv.transform import extract_data, flatten_data
 
-def convert(infile, outfile):
-    data = load_json(infile)
+
+def convert(infile: Path, outfile: Path, flatten: bool = False, datakey: str = None) -> None:
+    """
+    Converts provided JSON file into a CSV file.
+
+    :param infile: Path object containing the path to the JSON file
+    :param outfile: Path object where the CSV file will be written to
+    :param flatten: Boolean value to determine if nested data should be flattened
+    :param datakey: String representing field name in nested structure used to extract data
+    """
+    with open(infile) as fh:
+        data = json.load(fh)
+
+    if datakey:
+        data = extract_data(data, datakey)
+
+    if flatten:
+        data = flatten_data(data)
+
     to_csv(data, outfile)
-
-
-def load_json(filepath: str) -> Union[dict, list]:
-    """
-    Loads JSON file and returns either a dictionary or list.
-
-    :param filepath: The filepath to the JSON file to load
-    :return: A dict or list of the loaded JSON
-    """
-    with open(filepath) as fh:
-        return json.load(fh)
 
 
 def to_csv(data: Union[dict, list], filepath: str) -> None:
@@ -42,3 +50,5 @@ def to_csv(data: Union[dict, list], filepath: str) -> None:
             csv_writer.writerow(data)
         elif isinstance(data, list):
             csv_writer.writerows(data)
+
+    print(f"CSV file written to {filepath}")
