@@ -33,6 +33,7 @@ def _flatten(d: dict, parent_key: str = '', sep: str = '_') -> dict:
             items.append((new_key, v))
     return dict(items)
 
+
 def flatten_data(d: Union[dict, list]) -> Union[dict, list]:
     """
     Flattens a dictionary or list of dictionaries.
@@ -55,7 +56,11 @@ def extract_data(data: Union[dict, list], datakey: str) -> Union[dict, list]:
     :return: A subset of the original data passed in in the form of dict
         or list of dicts
     """
-    if _is_dict(data):
-            return data.get(datakey)
-    else:
-        return [item.get(datakey) for item in data]
+    try:
+        if _is_dict(data):
+                return data[datakey]
+        else:
+            return [item[datakey] for item in data]
+    except KeyError as e:
+        print(f'Error: {e}')
+        raise KeyError
