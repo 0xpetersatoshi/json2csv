@@ -18,4 +18,6 @@ setup(
         [console_scripts]
         json2csv=json2csv:main
     ''',
+    setup_requires=['pylint'],
+    tests_require=['pytest', 'pytest-cov']
 )
