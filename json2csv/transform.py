@@ -2,7 +2,7 @@
 This module contains helper functions for the json2csv package.
 """
 
-import collections
+from collections.abc import MutableMapping
 from typing import Union
 
 
@@ -31,7 +31,7 @@ def _flatten(data: dict, parent_key: str = '', sep: str = '_') -> dict:
     items = []
     for key, value in data.items():
         new_key = parent_key + sep + key if parent_key else key
-        if isinstance(value, collections.MutableMapping):
+        if isinstance(value, MutableMapping):
             items.extend(_flatten(value, new_key, sep=sep).items())
         else:
             items.append((new_key, value))
