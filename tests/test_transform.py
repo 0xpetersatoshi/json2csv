@@ -1,4 +1,5 @@
-from json2csv.transform import flatten_data, extract_data
+from json2csv.transform import _flatten, _is_dict, extract_data, flatten_data
+
 
 def test_extract_data():
     test_cases = [
@@ -64,5 +65,44 @@ def test_flatten_data():
 
     for test_case in test_cases:
         result = flatten_data(test_case['case'])
+
+        assert test_case['expected'] == result
+
+
+def test__flatten():
+    test_cases = [
+        {'case': {
+            'a': {
+                'b': {
+                    'c': 55,
+                    'd': {'e': 'hello'},
+                    'f': [1, 2, 3]
+                }
+            }
+        },
+        'expected': {
+            'a_b_c': 55,
+            'a_b_d_e': 'hello',
+            'a_b_f': [1, 2, 3]
+        }}
+    ]
+
+    for test_case in test_cases:
+        result = _flatten(test_case['case'])
+
+        assert test_case['expected'] == result
+
+
+def test__is_dict():
+    test_cases = [
+        {'case': {'a': 1}, 'expected': True},
+        {'case': [{'a': 1}], 'expected': False},
+        {'case': None, 'expected': False},
+        {'case': [], 'expected': False},
+        {'case': {}, 'expected': True},
+    ]
+
+    for test_case in test_cases:
+        result = _is_dict(test_case['case'])
 
         assert test_case['expected'] == result
