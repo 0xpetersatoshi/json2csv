@@ -5,6 +5,7 @@ file to CSV.
 
 import csv
 import json
+import os
 from pathlib import Path
 from typing import Union
 
@@ -31,7 +32,7 @@ def convert(infile: Path, outfile: Path, flatten: bool = False, datakey: str = N
 
     # Create default output filepath if none provided
     if outfile is None:
-        outfile = infile.parent / 'data.csv'
+        outfile = Path(os.getcwd()) / 'data.csv'
 
     to_csv(data, outfile)
 
