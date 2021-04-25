@@ -1,3 +1,8 @@
+"""
+This module takes the arguments provided from the CLI and converts a JSON
+file to CSV.
+"""
+
 import csv
 import json
 from pathlib import Path
@@ -15,14 +20,18 @@ def convert(infile: Path, outfile: Path, flatten: bool = False, datakey: str = N
     :param flatten: Boolean value to determine if nested data should be flattened
     :param datakey: String representing field name in nested structure used to extract data
     """
-    with open(infile) as fh:
-        data = json.load(fh)
+    with open(infile) as jsonfile:
+        data = json.load(jsonfile)
 
     if datakey:
         data = extract_data(data, datakey)
 
     if flatten:
         data = flatten_data(data)
+
+    # Create default output filepath if none provided
+    if outfile is None:
+        outfile = infile.parent / 'data.csv'
 
     to_csv(data, outfile)
 

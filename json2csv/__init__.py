@@ -1,9 +1,25 @@
+"""JSON to CSV converter CLI tool
+
+This script allows the user to provide a path to a JSON file and have
+that file be converted to CSV format.
+
+As JSON data can vary, there are some helpful arguments to deal with
+different shapes of data. The --flatten argument will de-nest and
+flatten nested data in the JSON file. Often times in JSON files,
+the records can be nested within a top level key. This key can
+be passed to the --data-key argument and the script will extract
+the JSON records from this key and convert them to CSV.
+"""
+
 import argparse
 from pathlib import Path
 
 from json2csv.convert import convert
 
 def main():
+    """
+    The entrypoint to the json2csv package.
+    """
     parser = argparse.ArgumentParser(description='Convert a JSON file to CSV')
     parser.add_argument('-i',
                         '--jsonfile',
